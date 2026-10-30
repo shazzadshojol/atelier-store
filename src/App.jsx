@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
 const products = [
@@ -10,7 +10,21 @@ const products = [
 const categories = ['All', 'Home', 'Accessories', 'Desk']
 function App() {
   const [category, setCategory] = useState('All')
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('atelier-bag') || '[]')
+      return Array.isArray(saved) ? saved.map((id) => products.find((product) => product.id === id)).filter(Boolean) : []
+    } catch {
+      return []
+    }
+  })
+  useEffect(() => {
+    try {
+      localStorage.setItem('atelier-bag', JSON.stringify(cart.map((item) => item.id)))
+    } catch {
+      // Keep the bag available for the current session if storage is unavailable.
+    }
+  }, [cart])
   const [cartOpen, setCartOpen] = useState(false)
   const visible = useMemo(() => category === 'All' ? products : products.filter((p) => p.category === category), [category])
   const total = cart.reduce((sum, item) => sum + item.price, 0)

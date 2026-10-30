@@ -1,6 +1,6 @@
 # Atelier
 
-A React storefront for a curated collection of everyday objects. The current release includes category filters and a session-based shopping bag. Product content and imagery are sample material; checkout and order processing are planned for a later release.
+A React storefront for a curated collection of everyday objects. The current release includes category filters and a shopping bag saved in the browser. Product content and imagery are sample material; checkout and order processing are planned for a later release.
 
 ## Development
 
