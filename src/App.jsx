@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 
 const products = [
@@ -28,6 +28,13 @@ function App() {
     }
   }, [cart])
   const [cartOpen, setCartOpen] = useState(false)
+  const bagDialog = useRef(null)
+  useEffect(() => {
+    const dialog = bagDialog.current
+    if (cartOpen && !dialog.open) dialog.showModal()
+    if (!cartOpen && dialog.open) dialog.close()
+    return () => { if (dialog.open) dialog.close() }
+  }, [cartOpen])
   const visible = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
     const matches = products.filter((product) =>
@@ -60,7 +67,7 @@ function App() {
     <section className="story" id="story"><p className="eyebrow">A MORE THOUGHTFUL EVERYDAY</p><h2>Less, but better.</h2><p>We believe the things we surround ourselves with should bring a little more intention to every day.</p><a href="#collection">Discover our collection ↗</a></section>
     <section className="newsletter" id="newsletter"><div><p className="eyebrow">NOTES FROM ATELIER</p><h2>Good things, occasionally.</h2><p>New arrivals and inspiration for a more considered life.</p></div><a href="mailto:hello@example.com?subject=Atelier%20updates">Get in touch ↗</a></section></main>
     <footer><a className="brand" href="#top">ATELIER<span>.</span></a><p>Thoughtful objects for everyday life.</p><span>© {new Date().getFullYear()} Atelier. All rights reserved.</span></footer>
-    {cartOpen && <div className="overlay" onClick={() => setCartOpen(false)}><aside className="drawer" onClick={(e) => e.stopPropagation()} aria-label="Shopping bag"><div className="drawer-head"><h2>Your bag</h2><button onClick={() => setCartOpen(false)} aria-label="Close bag">×</button></div>{cart.length === 0 ? <p>Your bag is waiting for something special.</p> : <><ul className="bag-items">{bagItems.map((item) => <li key={item.id}><img src={item.image} alt=""/><div className="bag-item-details"><strong>{item.name}</strong><small>${item.price} each</small><div className="quantity-controls" aria-label={`Quantity for ${item.name}`}><button onClick={() => changeQuantity(item, -1)} aria-label={`Decrease quantity of ${item.name}`}>−</button><span aria-live="polite">{item.quantity}</span><button onClick={() => changeQuantity(item, 1)} aria-label={`Increase quantity of ${item.name}`}>+</button></div></div><div className="bag-item-total"><strong>${item.price * item.quantity}</strong><button onClick={() => removeProduct(item.id)} aria-label={`Remove ${item.name} from bag`}>Remove</button></div></li>)}</ul><div className="subtotal"><span>Subtotal</span><strong>${total}</strong></div><p className="cart-note">Checkout will be available when the store opens.</p></>}</aside></div>}
+    <dialog ref={bagDialog} className="drawer" aria-labelledby="bag-title" onCancel={(event) => { event.preventDefault(); setCartOpen(false) }} onClick={(event) => { if (event.target === event.currentTarget) setCartOpen(false) }}><div className="drawer-head"><h2 id="bag-title">Your bag</h2><button onClick={() => setCartOpen(false)} aria-label="Close bag">×</button></div>{cart.length === 0 ? <p>Your bag is waiting for something special.</p> : <><ul className="bag-items">{bagItems.map((item) => <li key={item.id}><img src={item.image} alt=""/><div className="bag-item-details"><strong>{item.name}</strong><small>${item.price} each</small><div className="quantity-controls" aria-label={`Quantity for ${item.name}`}><button onClick={() => changeQuantity(item, -1)} aria-label={`Decrease quantity of ${item.name}`}>−</button><span aria-live="polite">{item.quantity}</span><button onClick={() => changeQuantity(item, 1)} aria-label={`Increase quantity of ${item.name}`}>+</button></div></div><div className="bag-item-total"><strong>${item.price * item.quantity}</strong><button onClick={() => removeProduct(item.id)} aria-label={`Remove ${item.name} from bag`}>Remove</button></div></li>)}</ul><div className="subtotal"><span>Subtotal</span><strong>${total}</strong></div><p className="cart-note">Checkout will be available when the store opens.</p></>}</dialog>
   </>
 }
 export default App
