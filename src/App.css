@@ -7,3 +7,5 @@
 
 /* Native modal dialog keeps keyboard focus within the shopping bag. */
 dialog.drawer{position:fixed;inset:0 0 0 auto;margin:0;max-width:100%;max-height:100%;border:0;box-shadow:-8px 0 32px #0002;color:inherit}dialog.drawer::backdrop{background:#0007}.drawer button:focus-visible{outline:2px solid #526c57;outline-offset:2px}
+
+.catalog-tools .saved-filter{min-height:43px;padding:0 17px;border:1px solid #d9ded5;background:#fff;color:#2b3b30;font-size:12px}.catalog-tools .saved-filter[aria-pressed="true"]{background:#2b3b30;color:#fff}.product-image .save-product{top:14px;bottom:auto;font-size:22px;color:#2b3b30}.product-image button:focus-visible,.saved-filter:focus-visible{outline:2px solid #526c57;outline-offset:2px}
