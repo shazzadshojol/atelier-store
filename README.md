@@ -9,3 +9,7 @@ Install dependencies with `npm install`, then start the local server with `npm r
 ## Stack
 
 React, Vite, and CSS.
+
+## Catalog
+
+Product data lives in `src/data/catalog.js`. Categories are derived from that catalog so the filter stays in sync with the available products.
