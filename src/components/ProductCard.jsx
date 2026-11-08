@@ -1,10 +1,15 @@
+import { useState } from 'react'
+
 export default function ProductCard({ product, saved, onToggleSaved, onAddToBag, onOpenDetails }) {
+  const [imageUnavailable, setImageUnavailable] = useState(false)
   const savedLabel = saved ? `Remove ${product.name} from saved items` : `Save ${product.name} to saved items`
 
   return (
     <article className="product">
       <div className="product-image" style={{ backgroundColor: product.color }}>
-        <img src={product.image} alt={product.name} loading="lazy" />
+        {imageUnavailable
+          ? <div className="product-image-fallback" role="img" aria-label={`${product.name}: image unavailable`}><span aria-hidden="true">✳</span><span>{product.name}</span></div>
+          : <img src={product.image} alt={product.name} loading="lazy" onError={() => setImageUnavailable(true)} />}
         <button className="save-product" onClick={() => onToggleSaved(product.id)} aria-label={savedLabel} aria-pressed={saved}>
           {saved ? '♥' : '♡'}
         </button>
