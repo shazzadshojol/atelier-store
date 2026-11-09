@@ -15,3 +15,5 @@ dialog.drawer{position:fixed;inset:0 0 0 auto;margin:0;max-width:100%;max-height
 .catalog-summary{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px}.catalog-summary .result-count{margin:0}.clear-filters{border:0;background:transparent;color:#2b3b30;padding:4px 0;font-size:12px;text-decoration:underline;text-underline-offset:3px}.clear-filters:focus-visible{outline:2px solid #526c57;outline-offset:3px}.empty-results p{margin:0 0 12px}.empty-results .clear-filters{font-weight:600}
 
 .product-image-fallback{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;color:#526454;font-size:13px;letter-spacing:.03em}.product-image-fallback span:first-child{font-size:32px;color:#87977e}
+
+.detail-quantity{display:flex;align-items:center;justify-content:space-between;margin:0 0 20px;font-size:13px}.detail-quantity .quantity-controls button{width:34px;height:32px;border:0;background:transparent;font-size:18px;color:#2b3b30}.detail-quantity .quantity-controls button:disabled{opacity:.35;cursor:not-allowed}
