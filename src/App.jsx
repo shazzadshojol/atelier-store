@@ -35,6 +35,25 @@ function App() {
       // Keep the bag available for the current session if storage is unavailable.
     }
   }, [cart])
+  useEffect(() => {
+    const syncSavedState = (event) => {
+      if (event.storageArea !== localStorage) return
+      try {
+        if (event.key === 'atelier-bag' || event.key === null) {
+          const ids = JSON.parse(event.key === null ? '[]' : event.newValue || '[]')
+          if (Array.isArray(ids)) setCart(ids.map((id) => products.find((product) => product.id === id)).filter(Boolean))
+        }
+        if (event.key === 'atelier-saved' || event.key === null) {
+          const ids = JSON.parse(event.key === null ? '[]' : event.newValue || '[]')
+          if (Array.isArray(ids)) setSavedIds([...new Set(ids.filter((id) => products.some((product) => product.id === id)))])
+        }
+      } catch {
+        // Ignore malformed values and retain the current view.
+      }
+    }
+    window.addEventListener('storage', syncSavedState)
+    return () => window.removeEventListener('storage', syncSavedState)
+  }, [])
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [detailQuantity, setDetailQuantity] = useState(1)
   const openProduct = (product) => {
