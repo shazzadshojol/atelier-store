@@ -67,6 +67,7 @@ function App() {
     if (!selectedProduct && dialog.open) dialog.close()
     return () => { if (dialog.open) dialog.close() }
   }, [selectedProduct])
+  const [removedItem, setRemovedItem] = useState(null)
   const [cartOpen, setCartOpen] = useState(false)
   const bagDialog = useRef(null)
   useEffect(() => {
@@ -105,7 +106,17 @@ function App() {
       return index < 0 ? current : current.filter((_, itemIndex) => itemIndex !== index)
     })
   }
-  const removeProduct = (id) => setCart((current) => current.filter((item) => item.id !== id))
+  const removeProduct = (id) => {
+    const removed = bagItems.find((item) => item.id === id)
+    if (!removed) return
+    setRemovedItem({ product: products.find((item) => item.id === id), quantity: removed.quantity })
+    setCart((current) => current.filter((item) => item.id !== id))
+  }
+  const restoreProduct = () => {
+    if (!removedItem) return
+    setCart((current) => [...current, ...Array(removedItem.quantity).fill(removedItem.product)])
+    setRemovedItem(null)
+  }
   return <>
     <a className="skip-link" href="#main-content">Skip to content</a>
     <div className="announcement">Thoughtfully chosen for everyday living <span>✦</span> Discover the collection</div>
@@ -119,7 +130,7 @@ function App() {
     <dialog ref={productDialog} className="product-dialog" aria-labelledby="product-dialog-title" onCancel={(event) => { event.preventDefault(); setSelectedProduct(null) }} onClick={(event) => { if (event.target === event.currentTarget) setSelectedProduct(null) }}>
       {selectedProduct && <div className="product-dialog-content"><button className="product-dialog-close" onClick={() => setSelectedProduct(null)} aria-label="Close product details">×</button><ProductImage product={selectedProduct} /><div className="product-dialog-copy"><p className="eyebrow">{selectedProduct.category}</p><h2 id="product-dialog-title">{selectedProduct.name}</h2><p className="detail-price">${selectedProduct.price}</p><p className="detail-description">A considered addition to your everyday collection.</p><div className="detail-quantity"><span>Quantity</span><div className="quantity-controls" aria-label={`Quantity for ${selectedProduct.name}`}><button onClick={() => setDetailQuantity((quantity) => Math.max(1, quantity - 1))} disabled={detailQuantity === 1} aria-label="Decrease quantity">−</button><span aria-live="polite">{detailQuantity}</span><button onClick={() => setDetailQuantity((quantity) => Math.min(20, quantity + 1))} disabled={detailQuantity === 20} aria-label="Increase quantity">+</button></div></div><button className="button detail-add" onClick={() => { setCart((current) => [...current, ...Array(detailQuantity).fill(selectedProduct)]); setSelectedProduct(null); setCartOpen(true) }}>Add to bag · ${selectedProduct.price * detailQuantity} <span>↗</span></button><button className="detail-save" aria-pressed={savedIds.includes(selectedProduct.id)} onClick={() => toggleSaved(selectedProduct.id)}>{savedIds.includes(selectedProduct.id) ? '♥ Saved to your list' : '♡ Save for later'}</button></div></div>}
     </dialog>
-    <dialog ref={bagDialog} className="drawer" aria-labelledby="bag-title" onCancel={(event) => { event.preventDefault(); setCartOpen(false) }} onClick={(event) => { if (event.target === event.currentTarget) setCartOpen(false) }}><div className="drawer-head"><h2 id="bag-title">Your bag</h2><button onClick={() => setCartOpen(false)} aria-label="Close bag">×</button></div>{cart.length === 0 ? <p>Your bag is waiting for something special.</p> : <><ul className="bag-items">{bagItems.map((item) => <li key={item.id}><ProductImage product={item} decorative /><div className="bag-item-details"><strong>{item.name}</strong><small>${item.price} each</small><div className="quantity-controls" aria-label={`Quantity for ${item.name}`}><button onClick={() => changeQuantity(item, -1)} aria-label={`Decrease quantity of ${item.name}`}>−</button><span aria-live="polite">{item.quantity}</span><button onClick={() => changeQuantity(item, 1)} aria-label={`Increase quantity of ${item.name}`}>+</button></div></div><div className="bag-item-total"><strong>${item.price * item.quantity}</strong><button onClick={() => removeProduct(item.id)} aria-label={`Remove ${item.name} from bag`}>Remove</button></div></li>)}</ul><div className="subtotal"><span>Subtotal</span><strong>${total}</strong></div><p className="cart-note">Checkout will be available when the store opens.</p></>}</dialog>
+    <dialog ref={bagDialog} className="drawer" aria-labelledby="bag-title" onCancel={(event) => { event.preventDefault(); setCartOpen(false) }} onClick={(event) => { if (event.target === event.currentTarget) setCartOpen(false) }}><div className="drawer-head"><h2 id="bag-title">Your bag</h2><button onClick={() => setCartOpen(false)} aria-label="Close bag">×</button></div>{removedItem && <div className="bag-notice" role="status"><span>{removedItem.product.name} removed.</span><button onClick={restoreProduct}>Undo</button></div>}{cart.length === 0 ? <p>Your bag is waiting for something special.</p> : <><ul className="bag-items">{bagItems.map((item) => <li key={item.id}><ProductImage product={item} decorative /><div className="bag-item-details"><strong>{item.name}</strong><small>${item.price} each</small><div className="quantity-controls" aria-label={`Quantity for ${item.name}`}><button onClick={() => changeQuantity(item, -1)} aria-label={`Decrease quantity of ${item.name}`}>−</button><span aria-live="polite">{item.quantity}</span><button onClick={() => changeQuantity(item, 1)} aria-label={`Increase quantity of ${item.name}`}>+</button></div></div><div className="bag-item-total"><strong>${item.price * item.quantity}</strong><button onClick={() => removeProduct(item.id)} aria-label={`Remove ${item.name} from bag`}>Remove</button></div></li>)}</ul><div className="subtotal"><span>Subtotal</span><strong>${total}</strong></div><p className="cart-note">Checkout will be available when the store opens.</p></>}</dialog>
   </>
 }
 export default App

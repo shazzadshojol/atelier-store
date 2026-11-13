@@ -21,3 +21,5 @@ dialog.drawer{position:fixed;inset:0 0 0 auto;margin:0;max-width:100%;max-height
 .product-dialog-content>.product-image-fallback{min-height:400px}.bag-items .product-image-fallback{width:68px;height:85px;flex:none;padding:5px;font-size:9px;overflow:hidden}.bag-items .product-image-fallback span:first-child{font-size:18px}@media(max-width:600px){.product-dialog-content>.product-image-fallback{min-height:240px;max-height:300px}}
 
 .skip-link{position:fixed;top:10px;left:10px;z-index:100;transform:translateY(-160%);background:#26372b;color:#fff;padding:12px 18px;font-size:14px}.skip-link:focus{transform:translateY(0);outline:3px solid #fff;outline-offset:2px}a:focus-visible,button:focus-visible{outline:2px solid #526c57;outline-offset:3px}#main-content:focus{outline:none}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.product-image img{transition:none}}
+
+.bag-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#e8ece4;color:#2b3b30;padding:13px 14px;font-size:12px;line-height:1.4}.drawer .bag-notice button{padding:4px;color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px}
