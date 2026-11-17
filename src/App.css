@@ -25,3 +25,5 @@ dialog.drawer{position:fixed;inset:0 0 0 auto;margin:0;max-width:100%;max-height
 .bag-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#e8ece4;color:#2b3b30;padding:13px 14px;font-size:12px;line-height:1.4}.drawer .bag-notice button{padding:4px;color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 
 .catalog-tools{flex-wrap:wrap}.catalog-tools label{min-width:140px}@media(max-width:480px){.catalog-tools label{min-width:0}}
+
+.empty-bag{padding:28px 0;color:#72786f;font-size:14px;line-height:1.6}.empty-bag a{display:inline-block;color:#2b3b30;font-weight:600;font-size:12px;margin-top:15px;padding-bottom:5px;border-bottom:1px solid currentColor}.subtotal small{color:#72786f;font-size:12px;font-weight:400}
