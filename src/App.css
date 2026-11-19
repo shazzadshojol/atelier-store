@@ -29,3 +29,5 @@ dialog.drawer{position:fixed;inset:0 0 0 auto;margin:0;max-width:100%;max-height
 .empty-bag{padding:28px 0;color:#72786f;font-size:14px;line-height:1.6}.empty-bag a{display:inline-block;color:#2b3b30;font-weight:600;font-size:12px;margin-top:15px;padding-bottom:5px;border-bottom:1px solid currentColor}.subtotal small{color:#72786f;font-size:12px;font-weight:400}
 
 .bag-feedback{position:fixed;right:24px;bottom:24px;z-index:5;max-width:calc(100vw - 48px);pointer-events:none}.bag-feedback span{display:block;background:#2b3b30;color:#fff;padding:14px 18px;font-size:13px;box-shadow:0 8px 24px #0002}@media(max-width:480px){.bag-feedback{right:16px;bottom:16px;max-width:calc(100vw - 32px)}}
+
+.product-image .product-image-trigger{inset:0;width:100%;height:100%;padding:0;background:transparent}.product-image .product-image-trigger:focus-visible{outline:3px solid #526c57;outline-offset:-3px}

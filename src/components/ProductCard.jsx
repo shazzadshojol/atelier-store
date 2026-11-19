@@ -6,7 +6,9 @@ export default function ProductCard({ product, saved, onToggleSaved, onAddToBag,
   return (
     <article className="product">
       <div className="product-image" style={{ backgroundColor: product.color }}>
-        <ProductImage product={product} loading="lazy" />
+        <button className="product-image-trigger" onClick={() => onOpenDetails(product)} aria-label={`View details for ${product.name}`}>
+          <ProductImage product={product} loading="lazy" decorative />
+        </button>
         <button className="save-product" onClick={() => onToggleSaved(product.id)} aria-label={savedLabel} aria-pressed={saved}>
           {saved ? '♥' : '♡'}
         </button>
