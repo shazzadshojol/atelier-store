@@ -114,6 +114,10 @@ function App() {
     quantity: cart.filter((item) => item.id === product.id).length,
   })).filter((item) => item.quantity > 0)
   const changeQuantity = (product, amount) => {
+    if (amount < 0 && bagItems.find((item) => item.id === product.id)?.quantity === 1) {
+      removeProduct(product.id)
+      return
+    }
     setCart((current) => {
       if (amount > 0) return [...current, product]
       const index = current.findIndex((item) => item.id === product.id)
