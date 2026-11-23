@@ -97,12 +97,12 @@ function App() {
     return () => { if (dialog.open) dialog.close() }
   }, [cartOpen])
   const visible = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase()
+    const searchTerms = query.toLowerCase().trim().split(/\s+/).filter(Boolean)
     const matches = products.filter((product) =>
       (maxPrice === 'all' || product.price <= Number(maxPrice)) &&
       (!showSaved || savedIds.includes(product.id)) &&
       (category === 'All' || product.category === category) &&
-      `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(normalizedQuery),
+      searchTerms.every((term) => `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(term)),
     )
     if (sort === 'price-low') return matches.sort((a, b) => a.price - b.price)
     if (sort === 'price-high') return matches.sort((a, b) => b.price - a.price)
