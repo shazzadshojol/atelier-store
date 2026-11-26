@@ -44,14 +44,15 @@ function App() {
   }, [cart])
   useEffect(() => {
     const syncSavedState = (event) => {
-      if (event.storageArea !== localStorage) return
       try {
+        if (event.storageArea !== localStorage) return
         if (event.key === 'atelier-bag' || event.key === null) {
-          const ids = JSON.parse(event.key === null ? '[]' : event.newValue || '[]')
+          // Read the current value: a newer change may have arrived since this event was queued.
+          const ids = JSON.parse(localStorage.getItem('atelier-bag') || '[]')
           if (Array.isArray(ids)) setCart(ids.map((id) => products.find((product) => product.id === id)).filter(Boolean))
         }
         if (event.key === 'atelier-saved' || event.key === null) {
-          const ids = JSON.parse(event.key === null ? '[]' : event.newValue || '[]')
+          const ids = JSON.parse(localStorage.getItem('atelier-saved') || '[]')
           if (Array.isArray(ids)) setSavedIds([...new Set(ids.filter((id) => products.some((product) => product.id === id)))])
         }
       } catch {
